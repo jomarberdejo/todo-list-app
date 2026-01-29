@@ -1,6 +1,6 @@
 # Todo List Application
 
-A full-stack Todo List application built with **React**, **TypeScript**, **Express**, **Prisma v6**, and **MongoDB**. This project focuses on functionality with user authentication via **JWT** stored in **local storage**, CRUD operations for todos, and task management features including search, filtering, sorting, and pagination.
+Todo List application built with **React**, **TypeScript**, **Express**, **Prisma v6**, and **MongoDB**. This project focuses on functionality with user authentication via **JWT** stored in **local storage**, CRUD operations for todos, and task management features including search, filtering, sorting, and pagination.
 
 ---
 
