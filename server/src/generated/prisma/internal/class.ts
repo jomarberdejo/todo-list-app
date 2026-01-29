@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "C:\\Users\\jomar\\OneDrive\\Desktop\\exam\\server\\src\\generated\\prisma",
+      "value": "C:\\Users\\mcrca\\OneDrive\\jomar\\todo-list-app\\server\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -37,7 +37,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\jomar\\OneDrive\\Desktop\\exam\\server\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\mcrca\\OneDrive\\jomar\\todo-list-app\\server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
@@ -47,7 +47,6 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "mongodb",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
