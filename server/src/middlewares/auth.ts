@@ -13,6 +13,7 @@ export function authMiddleware(
 ) {
   try {
     const authHeader = req.headers.authorization;
+   
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw new UnauthorizedError("No token provided");
@@ -27,6 +28,7 @@ export function authMiddleware(
     const decoded = verifyAccessToken(token);
     req.user = decoded;
     next();
+
   } catch (error) {
     if (error instanceof Error) {
       if (error.name === "JsonWebTokenError") {

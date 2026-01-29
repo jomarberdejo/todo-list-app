@@ -21,6 +21,7 @@ export async function createTodo(data: {
   userId: string;
   title: string;
   description?: string;
+  dueDate?: Date,
   status?: STATUS;
 }) {
   return await prisma.todo.create({
@@ -33,7 +34,8 @@ export async function updateTodo(
   data: {
     title?: string;
     description?: string;
-    status: STATUS;
+    dueDate?: Date,
+    status?: STATUS;
   }
 ) {
   return await prisma.todo.update({
@@ -41,7 +43,8 @@ export async function updateTodo(
     data: {
       ...(data.title !== undefined && { title: data.title }),
       ...(data.description !== undefined && { description: data.description }),
-      ...(data.status !== undefined && { status: data.status }),
+      ...(data.status !== undefined && { status: data.status || "PENDING" }),
+      ...(data.dueDate !== undefined && { dueDate: new Date(data.dueDate) }),
     },
   });
 }

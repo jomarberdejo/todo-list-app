@@ -10,6 +10,7 @@ export async function createUserTodo(
   userId: string,
   title: string,
   description?: string,
+  dueDate?: Date,
   status?: STATUS,
 ) {
   if (!title) {
@@ -19,17 +20,20 @@ export async function createUserTodo(
   const todoDataObj: {
     userId: string;
     title: string;
-    status?: STATUS;
     description?: string;
+    dueDate?: Date;
+    status?: STATUS;
   } = {
     userId,
     title,
+    ...(dueDate && { dueDate: new Date(dueDate) }),
     status,
   };
 
   if (description !== undefined) {
     todoDataObj.description = description;
   }
+
 
   return await todoData.createTodo(todoDataObj);
 }

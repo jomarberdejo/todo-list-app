@@ -1,7 +1,8 @@
+import "dotenv/config"
 import express from "express";
 import cors from "cors";
-import authRoutes from './routes/authRoutes'
-import todoRoutes from './routes/todoRoutes'
+import authRoutes from "./routes/authRoutes";
+import todoRoutes from "./routes/todoRoutes";
 import { errorHandlerMiddleware } from "./middlewares/error-handler";
 
 const PORT = process.env.PORT || 5000;

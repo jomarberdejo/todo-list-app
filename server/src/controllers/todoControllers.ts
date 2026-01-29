@@ -27,16 +27,20 @@ export async function createTodo(
   next: NextFunction
 ): Promise<void> {
   try {
+
+     console.log("header user", req.body)
+
     if (!req.user) {
       throw new UnauthorizedError("User not authenticated");
     }
 
-    const { title, description, status } = req.body;
+    const { title, description, status, dueDate} = req.body;
 
     const todo = await todoService.createUserTodo(
       req.user.userId,
       title,
       description,
+      dueDate,
       status
     );
 

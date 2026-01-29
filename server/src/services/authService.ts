@@ -31,20 +31,12 @@ export async function registerUser(
 
   const user = await authData.createUser(userData);
 
-  const tokens = generateTokens({
-    userId: user.id,
-    email: user.email,
-  });
-
-  await authData.addRefreshToken(user.id, tokens.refreshToken);
-
   return {
     user: {
       id: user.id,
       email: user.email,
       name: user.name,
-    },
-    tokens,
+    }
   };
 }
 

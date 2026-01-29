@@ -1,12 +1,11 @@
 import type { Response, NextFunction } from "express";
-import type{ AuthRequest } from "../middlewares/auth";
+import type { AuthRequest } from "../middlewares/auth";
 import * as authService from "../services/authService";
-
 
 export async function register(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> {
   try {
     const { email, password, name } = req.body;
@@ -25,12 +24,16 @@ export async function register(
 export async function login(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> {
   try {
     const { email, password } = req.body;
 
+    console.log(req.body);
+
     const result = await authService.loginUser(email, password);
+
+    console.log("RESULT  ", result);
 
     res.json({
       message: "Login successful",
@@ -44,7 +47,7 @@ export async function login(
 export async function refresh(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> {
   try {
     const { refreshToken } = req.body;
@@ -63,7 +66,7 @@ export async function refresh(
 export async function logout(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> {
   try {
     const { refreshToken } = req.body;
@@ -79,7 +82,7 @@ export async function logout(
 export async function getProfile(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> {
   try {
     if (!req.user) {
