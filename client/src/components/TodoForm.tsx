@@ -1,48 +1,51 @@
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import API from "@/api/axios"
+"use client";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import API from "@/api/axios";
+import { todoSchema, type TodoFormValues } from "@/schemas/todo";
 
 interface TodoFormProps {
-  onSuccess: () => void
+  onSuccess: () => void;
 }
 
+
 export const TodoForm = ({ onSuccess }: TodoFormProps) => {
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [dueDate, setDueDate] = useState("")
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<TodoFormValues>({
+    resolver: zodResolver(todoSchema),
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
+  const onSubmit = async (data: TodoFormValues) => {
     try {
-      const token = localStorage.getItem("token")
-      if (!token) throw new Error("No token found")
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found");
 
       await API.post(
         "/todos",
         {
-          title,
-          description,
-          dueDate: dueDate || null, 
+          title: data.title,
+          description: data.description || "",
+          dueDate: data.dueDate || null,
         },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-   
-      setTitle("")
-      setDescription("")
-      setDueDate("")
-
-      onSuccess()
+      reset();
+      onSuccess();
     } catch (err) {
-      console.error(err)
-      alert("Failed to add todo")
+      console.error(err);
+      alert("Failed to add todo");
     }
-  }
+  };
 
   return (
     <Card className="mb-6">
@@ -51,31 +54,42 @@ export const TodoForm = ({ onSuccess }: TodoFormProps) => {
       </CardHeader>
 
       <CardContent>
-        <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-4">
-          <Input
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid gap-4 md:grid-cols-4"
+        >
+          <div className="flex flex-col">
+            <Input placeholder="Title" {...register("title")} />
+            {errors.title && (
+              <span className="text-red-500 text-sm mt-1">
+                {errors.title.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <div className="flex flex-col">
+            <Input placeholder="Description" {...register("description")} />
+            {errors.description && (
+              <span className="text-red-500 text-sm mt-1">
+                {errors.description.message}
+              </span>
+            )}
+          </div>
 
-          <Input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-          />
+          <div className="flex flex-col">
+            <Input type="date" {...register("dueDate")} />
+            {errors.dueDate && (
+              <span className="text-red-500 text-sm mt-1">
+                {errors.dueDate.message}
+              </span>
+            )}
+          </div>
 
-          <Button type="submit" className="w-full">
-            Add Todo
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Adding..." : "Add Todo"}
           </Button>
         </form>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
